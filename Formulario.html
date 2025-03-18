@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulação de Crédito - Casanet Cred</title>
+</head>
+
+<Style>
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #0c1725;
+    color: #fff;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+header img {
+    width: 150px;
+    margin: 20px auto;
+    display: block;
+}
+
+#form-section {
+    max-width: 400px;
+    margin: 30px auto;
+    padding: 20px;
+    background: #12263f;
+    border-radius: 10px;
+}
+
+h2 {
+    font-size: 22px;
+    color: #ffc107;
+}
+
+p {
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-size: 14px;
+    text-align: left;
+    margin-top: 10px;
+}
+
+input {
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+    margin-top: 5px;
+}
+
+button {
+    background: #ffc107;
+    color: #000;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 15px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #ffcc33;
+}
+
+</Style>
+
+
+
+<body>
+    <header>
+        <img src="Imagens/casanet.png" alt="Casanaet Cred">
+    </header>
+
+    <section id="form-section">
+        <h2>Simule seu Crédito</h2>
+        <p>Preencha os campos abaixo para receber sua simulação personalizada.</p>
+
+        <form id="credit-form">
+            <label for="name">Nome completo</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="phone">Telefone</label>
+            <input type="tel" id="phone" name="phone" required>
+
+            <label for="loan-amount">Valor desejado</label>
+            <input type="number" id="loan-amount" name="loan-amount" required>
+
+            <label for="property-value">Valor do imóvel</label>
+            <input type="number" id="property-value" name="property-value" required>
+
+            <button type="submit">Enviar Simulação</button>
+        </form>
+
+        <p id="success-message" style="display: none; color: green; margin-top: 10px;">
+            Simulação enviada com sucesso! Entraremos em contato em breve.
+        </p>
+    </section>
+
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+    emailjs.init("alessandrospraca@gmail.com"); // Substitua pelo seu User ID do EmailJS
+
+    document.getElementById("credit-form").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        // Coletar os dados do formulário
+        const formData = {
+            name: document.getElementById("name").value,
+            email: document.getElementById("email").value,
+            phone: document.getElementById("phone").value,
+            loanAmount: document.getElementById("loan-amount").value,
+            propertyValue: document.getElementById("property-value").value
+        };
+
+        // Configurar EmailJS
+        emailjs.send("SEU_SERVICE_ID", "SEU_TEMPLATE_ID", formData)
+        .then(function(response) {
+            console.log("E-mail enviado com sucesso!", response);
+
+            // Exibir mensagem de agradecimento
+            const messageContainer = document.getElementById("success-message");
+            messageContainer.innerHTML = `Obrigado, <strong>${formData.name}</strong>! Sua simulação foi enviada com sucesso. Nossa equipe entrará em contato em breve.`;
+            messageContainer.style.display = "block";
+
+            // Limpar os campos do formulário
+            document.getElementById("credit-form").reset();
+        })
+        .catch(function(error) {
+            console.error("Erro ao enviar o e-mail:", error);
+        });
+    });
+});
+    </script>
+</body>
+</html>
